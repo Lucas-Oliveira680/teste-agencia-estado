@@ -11,7 +11,7 @@
 @include typography($font-family: $material-typeface, $type-scale: $material-type-scale);
 @include theme($default-palette);
 // CSS Reset, comment out if not required or using a different module
-@import 'minireset.css/minireset';
+@import '../../node_modules/minireset.css/minireset';
 /* You can add global styles to this file, and also import other style files */
 @tailwind base;
 @tailwind components;
