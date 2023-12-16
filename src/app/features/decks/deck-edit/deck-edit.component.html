@@ -1,20 +1,20 @@
-<div class="p-4">
-  <input type="text" placeholder="Deck Name" [(ngModel)]="deckName" class="border border-black p-2 m-2">
-  <button (click)="createDeck()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create Deck</button>
+<div *ngIf="deck" class="p-4">
+  <input type="text" placeholder="Deck Name" [(ngModel)]="deck.name" class="border border-black p-2 m-2">
+  <button (click)="saveChanges()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Save Changes</button>
 
   <div class="mt-4">
-    <input type="text" [(ngModel)]="searchString" class="border border-black p-2 m-2">
-    <button (click)="search()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Search</button>
-  </div>
-
-  <div class="mt-4">
-    <label>Added Cards:</label>
+    <label>Current Cards:</label>
     <ul>
-      <li *ngFor="let card of selectedCards">
+      <li *ngFor="let card of deck.cards">
         {{ card.name }}
         <button (click)="removeCard(card)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">Remove</button>
       </li>
     </ul>
+  </div>
+
+  <div class="mt-4">
+    <input type="text" [(ngModel)]="searchString" class="border border-black p-2 m-2">
+    <button (click)="search()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Search</button>
   </div>
 
   <ng-container *ngIf="cards">

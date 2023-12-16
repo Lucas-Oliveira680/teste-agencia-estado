@@ -1,1 +1,14 @@
-<p>deck-list works!</p>
+<div>
+  <h2>My Decks</h2>
+
+  <button (click)="createDeck()">Create New Deck</button>
+
+  <ul>
+    <li *ngFor="let deck of decks">
+      {{ deck.name }}
+      <button (click)="viewDeck(deck.id)">View</button>
+      <button (click)="editDeck(deck.id)">Edit</button>
+      <button (click)="deleteDeck(deck.id)">Delete</button>
+    </li>
+  </ul>
+</div>

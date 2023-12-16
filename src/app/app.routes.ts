@@ -2,6 +2,8 @@ import {Routes} from '@angular/router';
 import {DeckListComponent} from "@features/decks/deck-list/deck-list.component";
 import {DeckCreateComponent} from "@features/decks/deck-create/deck-create.component";
 import {DeckDetailsComponent} from "@features/decks/deck-details/deck-details.component";
+import {DeckEditComponent} from "@features/decks/deck-edit/deck-edit.component";
+import {deckResolver} from "@features/decks/deck-details/services/deck-resolver.service";
 
 
 export const routes: Routes = [
@@ -19,7 +21,14 @@ export const routes: Routes = [
     component: DeckCreateComponent,
   },
   {
-    path: 'deck-details',
-    component: DeckDetailsComponent
+    path: 'deck-details/:id',
+    component: DeckDetailsComponent,
+    resolve: { deck: deckResolver }
+  },
+  {
+    path: 'deck-edit/:id',
+    component: DeckEditComponent,
+    resolve: { deck: deckResolver }
+
   }
 ];
