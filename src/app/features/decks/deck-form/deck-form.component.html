@@ -37,7 +37,7 @@
       <nz-list nzBordered [nzLoading]="loading" class="overflow-auto" style="max-height: 60vh;">
         <nz-list-item *ngFor="let card of uniqueSelectedCards">
           <div class="flex justify-between items-center w-full">
-            <div class="flex items-center">
+            <div class="flex items-center m-2">
               <img [src]="card.images.small" [alt]="card.name" class="w-20 h-20 object-contain">
               <div class="ml-4">
                 <h3>{{ card.name }}</h3>
