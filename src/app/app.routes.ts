@@ -1,10 +1,9 @@
 import {Routes} from '@angular/router';
 import {DeckListComponent} from "@features/decks/deck-list/deck-list.component";
-import {DeckCreateComponent} from "@features/decks/deck-create/deck-create.component";
 import {DeckDetailsComponent} from "@features/decks/deck-details/deck-details.component";
-import {DeckEditComponent} from "@features/decks/deck-edit/deck-edit.component";
 import {deckResolver} from "@features/decks/deck-details/services/deck-resolver.service";
 import {AboutComponent} from "@features/about/about.component";
+import {DeckFormComponent} from "@features/decks/deck-form/deck-form.component";
 
 
 export const routes: Routes = [
@@ -20,7 +19,7 @@ export const routes: Routes = [
   },
   {
     path: 'deck-create',
-    component: DeckCreateComponent,
+    component: DeckFormComponent,
     data: { breadcrumb: 'Criar Deck' }
   },
   {
@@ -31,7 +30,7 @@ export const routes: Routes = [
   },
   {
     path: 'deck-edit/:id',
-    component: DeckEditComponent,
+    component: DeckFormComponent,
     resolve: { deck: deckResolver },
     data: { breadcrumb: 'Editar Deck' }
   },
