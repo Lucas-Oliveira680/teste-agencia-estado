@@ -20,7 +20,6 @@ export class DeckDetailsComponent implements OnInit{
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.deck = data['deck'];
-      console.log(data)
     });
   }
 }

@@ -47,7 +47,6 @@ export class AppComponent implements OnInit {
   }
 
   navigateTo(path: string): void {
-    console.log(path)
     this.router.navigate([path]);
   }
 }

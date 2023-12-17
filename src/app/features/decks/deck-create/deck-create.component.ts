@@ -22,9 +22,8 @@ import {NzIconModule} from "ng-zorro-antd/icon";
   styleUrls: ['./deck-create.component.scss']
 })
 export class DeckCreateComponent implements OnInit {
-  totalCards: number;
+  totalCount: number;
   page: number = 1;
-  apiPageSize: number = 250;
   pageSize: number = 16;
   cards: Card[] = [];
   selectedCards: Card[] = [];
@@ -45,11 +44,10 @@ export class DeckCreateComponent implements OnInit {
 
   search() {
     this.loading = true;
-    this.pokemonTcgService.searchByName(this.searchString, this.page, this.apiPageSize).subscribe({
+    this.pokemonTcgService.searchByName(this.searchString, this.page, this.pageSize).subscribe({
       next: (data) => {
-        this.cards = data;
-        this.totalCards = data.length;
-        console.log(data.length);
+        this.cards = data.data;
+        this.totalCount = data.totalCount;
       },
       error: () => {
         this.loading = false;
@@ -111,6 +109,9 @@ export class DeckCreateComponent implements OnInit {
     this.selectedCards = [];
     this.searchString = '';
   }
-
+  onPageIndexChange(event: number) {
+    this.page = event;
+    this.search();
+  }
 
 }

@@ -6,11 +6,17 @@ import { DeckService } from '@core/deck.service';
 import { Card } from 'pokemon-tcg-sdk-typescript/dist/interfaces/card';
 import { Deck } from '@features/decks/interfaces/deck.interface';
 import { NgForOf, NgIf } from "@angular/common";
+import {NzButtonModule} from "ng-zorro-antd/button";
+import {NzIconModule} from "ng-zorro-antd/icon";
+import {NzListModule} from "ng-zorro-antd/list";
+import {NzTabsModule} from "ng-zorro-antd/tabs";
+import {NzFormModule} from "ng-zorro-antd/form";
+import {NzInputModule} from "ng-zorro-antd/input";
 
 @Component({
   selector: 'app-deck-edit',
   standalone: true,
-  imports: [FormsModule, NgForOf, NgIf],
+  imports: [FormsModule, NgForOf, NgIf, NzButtonModule, NzIconModule, NzListModule, NzTabsModule, NzFormModule, NzInputModule],
   templateUrl: './deck-edit.component.html'
 })
 export class DeckEditComponent implements OnInit {
@@ -29,9 +35,9 @@ export class DeckEditComponent implements OnInit {
 
   search() {
     this.loading = true;
-    this.pokemonTcgService.searchByName(this.searchString).subscribe({
+    this.pokemonTcgService.searchByName(this.searchString, 1, 100).subscribe({
       next: (data) => {
-        this.cards = data;
+        this.cards = data.data;
       },
       complete: () => {
         this.loading = false;
@@ -45,10 +51,6 @@ export class DeckEditComponent implements OnInit {
     if (count < 4) {
       this.deck.cards.push(card);
     }
-  }
-
-  isCardSelected(card: Card): boolean {
-    return this.deck ? this.deck.cards.some(c => c.id === card.id) : false;
   }
 
   removeCard(cardToRemove: Card) {
