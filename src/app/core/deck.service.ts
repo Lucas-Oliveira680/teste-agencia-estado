@@ -59,6 +59,10 @@ export class DeckService {
   }
 
   updateDeck(id: string, updatedDeck: Deck): string | null {
+    if (updatedDeck.cards.length < 24) {
+      return 'O deck deve conter pelo menos 24 cartas.';
+    }
+
     const deckIndex = this.decks.findIndex(deck => deck.id === id);
     if (deckIndex === -1) {
       return 'Deck não encontrado.';
