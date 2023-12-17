@@ -1,27 +1,34 @@
-# TesteAgenciaEstado
+# Sobre o Projeto
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.2.
+![Banner Pokémon TCG](https://docs.pokemontcg.io/img/cards-banner2.png)
 
-## Development server
+O projeto consiste no desenvolvimento de uma aplicação interativa para a montagem de baralhos do Pokémon TCG usando Angular 17, Tailwind, Pokemon TCG API, NG-ZORRO, local storage e uuid.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Arquitetura do Projeto
 
-## Code scaffolding
+- **Core**: Serviços globais e essenciais.
+- **Shared**: Componentes, diretivas e pipes reutilizáveis.
+- **Features**: Organizados por funcionalidades específicas.
+- **Services**: Lógica de negócios e interação com a API Pokémon TCG.
+- **Routing**: Visão centralizada das rotas da aplicação.
+- **Assets e Styles**: Recursos estáticos e estilos globais.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Funcionalidades
 
-## Build
+### Lista de Baralhos
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Permite aos usuários visualizar uma lista de baralhos criados, editar ou remover baralhos existentes, e acessar detalhes de cada baralho individualmente.
 
-## Running unit tests
+### Criação de um Baralho
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Oferece a funcionalidade de criar um novo baralho, adicionando cartas a partir de uma seleção disponível, com restrições para garantir a validade e equilíbrio do baralho criado.
 
-## Running end-to-end tests
+### Detalhes do Baralho
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Exibe informações detalhadas sobre o baralho, como a contagem de cartas de Pokémon e treinador, além da diversidade de tipos e cores, proporcionando uma visão completa da composição do baralho.
 
-## Further help
+## Links Úteis
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- [Meu Portfolio](https://lucascodes.dev/home)
+- [GitHub](https://github.com/Lucas-Oliveira680)
+- [LinkedIn](https://www.linkedin.com/in/luccaseoliveira/)
