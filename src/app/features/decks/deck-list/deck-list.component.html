@@ -3,7 +3,7 @@
     <nz-list-item *ngFor="let deck of decks"
                   class="flex items-center hover:bg-gray-100 cursor-pointer"
                   (click)="viewDeck(deck.id)">
-      <img src="{{deck.cards[0]?.images?.small}}" alt="Card Image" class="w-16 h-16 mr-4 rounded">
+      <img src="{{deck.cards[0].images?.small}}" alt="Card Image" class="w-16 h-16 mr-4 rounded">
 
       <div class="flex-grow">
         <h4 class="text-lg font-semibold">{{ deck.name }}</h4>
