@@ -7,7 +7,9 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { filter } from 'rxjs';
 import { AnimatedLogoComponent } from 'src/app/shared/components/animated-logo/animated-logo.component';
-
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -17,8 +19,9 @@ import { AnimatedLogoComponent } from 'src/app/shared/components/animated-logo/a
 })
 export class AppComponent implements OnInit {
   breadcrumbs: Array<{ label: string, url: string }> = [];
-
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
+  isSmallScreen = false;
+  private breakpointSubscription: Subscription;
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private breakpointObserver: BreakpointObserver) {}
 
 
   ngOnInit() {
@@ -27,6 +30,13 @@ export class AppComponent implements OnInit {
     ).subscribe(() => {
       this.breadcrumbs = this.createBreadcrumbs(this.activatedRoute.root);
     });
+
+    this.breakpointSubscription = this.breakpointObserver
+      .observe([Breakpoints.Handset])
+      .pipe(map(result => result.matches))
+      .subscribe(isSmallScreen => {
+        this.isSmallScreen = isSmallScreen;
+      });
   }
 
   createBreadcrumbs(route: ActivatedRoute, path: string = ''): Array<{ label: string, url: string }> {

@@ -1,8 +1,8 @@
 <nz-layout class="h-max">
-  <nz-sider nzCollapsible nzWidth="200px">
+  <nz-sider [nzCollapsed]="isSmallScreen" nzCollapsible nzWidth="200px">
     <div class="logo"></div>
     <ul nz-menu nzTheme="dark" nzMode="inline">
-      <li nz-menu-item routerLink="deck-list" >
+      <li nz-menu-item routerLink="deck-list">
         <span nz-icon nzType="ordered-list" nzTheme="outline"></span>
         <span>Listar decks</span>
       </li>
@@ -20,15 +20,11 @@
     <nz-header>
       <app-animated-logo routerLink="/"></app-animated-logo>
     </nz-header>
-    <nz-content class="pl-20 pr-20 pt-5 pb-5">
+    <nz-content class="p-5">
       <nz-breadcrumb [nzAutoGenerate]="true"></nz-breadcrumb>
-
-
-
       <div class="mt-5">
-      <router-outlet></router-outlet>
+        <router-outlet></router-outlet>
       </div>
-
     </nz-content>
     <nz-footer>Lucas Codes ©2023</nz-footer>
   </nz-layout>
