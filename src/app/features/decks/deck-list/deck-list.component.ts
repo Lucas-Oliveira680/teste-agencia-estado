@@ -4,18 +4,21 @@ import {Deck} from "@features/decks/interfaces/deck.interface";
 import {DeckService} from "@core/deck.service";
 import {Router} from "@angular/router";
 import {NgForOf} from "@angular/common";
+import {NzListModule} from "ng-zorro-antd/list";
 
 @Component({
     selector: 'app-deck-list',
     standalone: true,
   imports: [
-    NgForOf
+    NgForOf,
+    NzListModule
   ],
     templateUrl: './deck-list.component.html',
     styleUrl: './deck-list.component.scss'
 })
 export class DeckListComponent implements OnInit {
   decks: Deck[] = [];
+  loading = true;
 
   constructor(private _deckService: DeckService, private _router: Router) { }
 
@@ -24,8 +27,9 @@ export class DeckListComponent implements OnInit {
   }
 
   loadDecks() {
+    this.loading = true;
     this.decks = this._deckService.getDecks();
-    console.log(this.decks)
+    this.loading = false;
   }
 
   createDeck() {
@@ -44,4 +48,8 @@ export class DeckListComponent implements OnInit {
     this._deckService.deleteDeck(deckId);
     this.loadDecks();
   }
+  getDeckSummary(deck: Deck): string {
+    return `Cartas: ${deck.cards.length}/60`;
+  }
+
 }

@@ -3,48 +3,71 @@ import { FormsModule } from '@angular/forms';
 import { PokemonTcgService } from '@core/pokemon-tcg.service';
 import { Card } from 'pokemon-tcg-sdk-typescript/dist/interfaces/card';
 import { DeckService } from '@core/deck.service';
-import {NgForOf, NgIf} from "@angular/common";
+import {NgForOf, NgIf, SlicePipe} from "@angular/common";
+import {NzFormModule} from "ng-zorro-antd/form";
+import {NzButtonModule} from "ng-zorro-antd/button";
+import {NzInputModule} from "ng-zorro-antd/input";
+import {NzListModule} from "ng-zorro-antd/list";
+import {NzTypographyModule} from "ng-zorro-antd/typography";
+import {NzTabsModule} from "ng-zorro-antd/tabs";
+import {NzPaginationModule} from "ng-zorro-antd/pagination";
+import {NzSpinModule} from "ng-zorro-antd/spin";
+import {NzIconModule} from "ng-zorro-antd/icon";
 
 @Component({
   selector: 'app-deck-create',
   standalone: true,
-  imports: [FormsModule, NgForOf, NgIf],
+  imports: [NgForOf, NgIf, NzButtonModule, NzInputModule, FormsModule, NzListModule, NzTypographyModule, NzFormModule, NzTabsModule, NzPaginationModule, NzSpinModule, NzIconModule, SlicePipe],
   templateUrl: './deck-create.component.html',
   styleUrls: ['./deck-create.component.scss']
 })
 export class DeckCreateComponent implements OnInit {
+  totalCards: number;
+  page: number = 1;
+  apiPageSize: number = 250;
+  pageSize: number = 16;
   cards: Card[] = [];
   selectedCards: Card[] = [];
   deckName: string = '';
   searchString: string = '';
-  loading = false;
+  loading: boolean = false;
 
   constructor(private pokemonTcgService: PokemonTcgService, private deckService: DeckService) { }
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  cannotAddMoreOfCard(card: Card): boolean {
+    if (card.supertype === 'Energy') {
+      return false;
+    }
+    return this.getCardCount(card) >= 4;
   }
 
   search() {
     this.loading = true;
-    this.pokemonTcgService.searchByName(this.searchString).subscribe({
+    this.pokemonTcgService.searchByName(this.searchString, this.page, this.apiPageSize).subscribe({
       next: (data) => {
         this.cards = data;
+        this.totalCards = data.length;
+        console.log(data.length);
+      },
+      error: () => {
+        this.loading = false;
       },
       complete: () => {
         this.loading = false;
       }
     });
   }
-
-  selectCard(card: Card) {
-    const count = this.getCardCount(card);
-    if (count < 4) {
+  selectCard(card: Card): void {
+    if (this.canAddCardToDeck(card)) {
       this.selectedCards.push(card);
     }
   }
 
-  isCardSelected(card: Card): boolean {
-    return this.selectedCards.some(c => c.id === card.id);
+  canAddCardToDeck(card: Card): boolean {
+    const nonEnergyCards = this.selectedCards.filter(c => c.name === card.name && c.supertype !== 'Energy');
+    return nonEnergyCards.length < 4;
   }
 
   removeCard(cardToRemove: Card) {
@@ -61,16 +84,33 @@ export class DeckCreateComponent implements OnInit {
   createDeck() {
     const result = this.deckService.createDeck(this.deckName, this.selectedCards);
     if (result === null) {
-      alert('Deck created successfully!');
+      alert('Deck criado com sucesso!');
       this.resetForm();
     } else {
       alert(result);
     }
   }
+  get uniqueSelectedCards(): Card[] {
+    const uniqueCards = new Map<string, Card>();
+    for (const card of this.selectedCards) {
+      uniqueCards.set(card.id, card);
+    }
+    return Array.from(uniqueCards.values());
+  }
 
-  private resetForm() {
+  removeSingleCard(cardToRemove: Card): void {
+    const index = this.selectedCards.lastIndexOf(cardToRemove);
+    if (index > -1) {
+      this.selectedCards.splice(index, 1);
+    }
+  }
+
+
+   resetForm() {
     this.deckName = '';
     this.selectedCards = [];
     this.searchString = '';
   }
+
+
 }

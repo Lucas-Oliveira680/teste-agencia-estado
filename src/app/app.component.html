@@ -1,4 +1,35 @@
+<nz-layout class="h-max">
+  <nz-sider nzCollapsible nzWidth="200px">
+    <div class="logo"></div>
+    <ul nz-menu nzTheme="dark" nzMode="inline">
+      <li nz-menu-item routerLink="deck-list" >
+        <span nz-icon nzType="ordered-list" nzTheme="outline"></span>
+        <span>Listar decks</span>
+      </li>
+      <li nz-menu-item routerLink="deck-create">
+        <span nz-icon nzType="plus" nzTheme="outline"></span>
+        <span>Criar deck</span>
+      </li>
+      <li nz-menu-item routerLink="about">
+        <span nz-icon nzType="info-circle" nzTheme="outline"></span>
+        <span>Sobre</span>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <app-animated-logo routerLink="/"></app-animated-logo>
+    </nz-header>
+    <nz-content class="pl-20 pr-20 pt-5 pb-5">
+      <nz-breadcrumb [nzAutoGenerate]="true"></nz-breadcrumb>
 
-<div class="pl-8 pr-8">
-  <router-outlet></router-outlet>
-</div>
+
+
+      <div class="mt-5">
+      <router-outlet></router-outlet>
+      </div>
+
+    </nz-content>
+    <nz-footer>Lucas Codes ©2023</nz-footer>
+  </nz-layout>
+</nz-layout>

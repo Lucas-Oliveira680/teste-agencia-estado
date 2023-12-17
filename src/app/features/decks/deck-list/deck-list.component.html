@@ -1,14 +1,23 @@
-<div>
-  <h2>My Decks</h2>
+<div class="h-screen">
+  <nz-list nzBordered [nzLoading]="loading" [nzItemLayout]="'vertical'">
+    <nz-list-item *ngFor="let deck of decks"
+                  class="flex items-center hover:bg-gray-100 cursor-pointer"
+                  (click)="viewDeck(deck.id)">
+      <img src="{{deck.cards[0]?.images?.small}}" alt="Card Image" class="w-16 h-16 mr-4 rounded">
 
-  <button (click)="createDeck()">Create New Deck</button>
+      <div class="flex-grow">
+        <h4 class="text-lg font-semibold">{{ deck.name }}</h4>
+        <p>{{ getDeckSummary(deck) }}</p>
+      </div>
 
-  <ul>
-    <li *ngFor="let deck of decks">
-      {{ deck.name }}
-      <button (click)="viewDeck(deck.id)">View</button>
-      <button (click)="editDeck(deck.id)">Edit</button>
-      <button (click)="deleteDeck(deck.id)">Delete</button>
-    </li>
-  </ul>
+      <div class="flex space-x-2">
+        <button class="text-green-500 hover:text-green-700 text-lg py-1 px-2" (click)="editDeck(deck.id); $event.stopPropagation()">
+          <i class="fa fa-edit"></i>
+        </button>
+        <button class="text-red-500 hover:text-red-700 text-lg py-1 px-2" (click)="deleteDeck(deck.id); $event.stopPropagation()">
+          <i class="fa fa-trash"></i>
+        </button>
+      </div>
+    </nz-list-item>
+  </nz-list>
 </div>

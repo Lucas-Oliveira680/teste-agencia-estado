@@ -31,17 +31,21 @@ export class DeckService {
 
   createDeck(name: string, cards: Card[]): string | null {
     if (cards.length < 24 || cards.length > 60) {
-      return 'A deck must contain between 24 and 60 cards.';
+      return 'O deck deve conter entre 24 e 60 cartas.';
     }
 
     const cardNameCounts = new Map<string, number>();
     for (const card of cards) {
-      const currentCount = (cardNameCounts.get(card.name) || 0) + 1;
-      cardNameCounts.set(card.name, currentCount);
-      if (currentCount > 4) {
-        return `Cannot have more than 4 copies of ${card.name}`;
+      const cardName = card.name;
+      if (card.supertype !== 'Energy' || (card.supertype === 'Energy' && !cardName.endsWith('Energy'))) {
+        const count = (cardNameCounts.get(cardName) || 0) + 1;
+        if (count > 4) {
+          return `Você não pode ter mais de 4 cartas com o nome "${cardName}" no deck, exceto para energias básicas.`;
+        }
+        cardNameCounts.set(cardName, count);
       }
     }
+
 
     const newDeck: Deck = {
       id: uuidv4(),
@@ -57,7 +61,7 @@ export class DeckService {
   updateDeck(id: string, updatedDeck: Deck): string | null {
     const deckIndex = this.decks.findIndex(deck => deck.id === id);
     if (deckIndex === -1) {
-      return 'Deck not found.';
+      return 'Deck não encontrado.';
     }
 
     this.decks[deckIndex] = updatedDeck;

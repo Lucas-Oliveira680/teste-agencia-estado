@@ -1,14 +1,53 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { filter } from 'rxjs';
+import { AnimatedLogoComponent } from 'src/app/shared/components/animated-logo/animated-logo.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet],
+  imports: [CommonModule, RouterOutlet, NzLayoutModule, NzBreadCrumbModule, NzMenuModule, NzIconModule, RouterLink, AnimatedLogoComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  title = 'teste_agencia_estado';
+export class AppComponent implements OnInit {
+  breadcrumbs: Array<{ label: string, url: string }> = [];
+
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
+
+
+  ngOnInit() {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.breadcrumbs = this.createBreadcrumbs(this.activatedRoute.root);
+    });
+  }
+
+  createBreadcrumbs(route: ActivatedRoute, path: string = ''): Array<{ label: string, url: string }> {
+    let breadcrumbs: Array<{ label: string, url: string }> = [];
+    let currentRoute: ActivatedRoute = route;
+
+    while (currentRoute.firstChild) {
+      currentRoute = currentRoute.firstChild;
+      const routeURL: string = currentRoute.snapshot.url.map(segment => segment.path).join('/');
+      if (routeURL) {
+        const fullPath = path ? `${path}/${routeURL}` : `/${routeURL}`;
+        const label = currentRoute.snapshot.params['id'] ? `${routeURL.split('/')[0]}/${currentRoute.snapshot.params['id']}` : routeURL;
+        breadcrumbs.push({ label, url: fullPath });
+      }
+    }
+
+    return breadcrumbs;
+  }
+
+  navigateTo(path: string): void {
+    console.log(path)
+    this.router.navigate([path]);
+  }
 }
